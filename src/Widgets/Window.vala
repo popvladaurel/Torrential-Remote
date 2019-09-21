@@ -1,6 +1,7 @@
 public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 
 	public Settings settings;
+	public HeaderBar headerBar;
 
 	public Window (Application application) {
 		Object (
@@ -9,9 +10,10 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	}
 
 	construct {
-	 	title = "Torrential Remote";
 		settings = new Settings ("com.github.popvladaurel.torrential-remote");
+		headerBar = new HeaderBar ();
 
+		set_titlebar(headerBar);
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
 		resize (settings.get_int ("window-width"), settings.get_int ("window-height"));
 
