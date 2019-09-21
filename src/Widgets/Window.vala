@@ -10,16 +10,20 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	}
 
 	construct {
-		settings = new Settings ("com.github.popvladaurel.torrential-remote");
 		headerBar = new HeaderBar ();
-
 		set_titlebar(headerBar);
+
+		settings = new Settings ("com.github.popvladaurel.torrential-remote");
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
 		resize (settings.get_int ("window-width"), settings.get_int ("window-height"));
 
 		delete_event.connect (e => {
 	 		return before_destroy ();
 	 	});
+
+		Gtk.Grid grid = new Gtk.Grid ();
+		grid.add (new Welcome());
+		add(grid);
 
 	 	show_all ();
 	}
