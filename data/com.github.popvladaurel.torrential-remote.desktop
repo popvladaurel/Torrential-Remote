@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Torrential Remote
+GenericName=Torrential Remote
+Comment=Connect to a remote torrent
+Categories=Utility;N;
+Exec=com.github.popvladaurel.torrential-remote
+Icon=application-default-icon
+Terminal=false
+Type=Application
+Keywords=Torrential;Remote;Torrent;
