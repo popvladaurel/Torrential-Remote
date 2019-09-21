@@ -2,7 +2,7 @@
 Name=Torrential Remote
 GenericName=Torrential Remote
 Comment=Connect to a remote torrent
-Categories=Utility;N;
+Categories=Utility;Network;
 Exec=com.github.popvladaurel.torrential-remote
 Icon=application-default-icon
 Terminal=false

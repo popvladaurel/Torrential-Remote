@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2019 Your Name <popvladaurel@gmail.com> -->
+<component type="desktop">
+    <id>com.github.popvladaurel.torrential-remote</id>
+    <metadata_license>CC0</metadata_license>
+    <name>Torrential Remote</name>
+    <summary>A simple remote torrent client</summary>
+    <description>
+        <p>Connect to a remote torrent server and manage you torrents. </p>
+    </description>
+</component>

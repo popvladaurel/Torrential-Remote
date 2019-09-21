@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema path="/com/github/popvladaurel/torrential-remote/" id="com.github.popvladaurel.torrential-remote">
+        <key name="window-height" type="i">
+            <default>500</default>
+            <summary>Main window height</summary>
+            <description>The saved height of the main window</description>
+        </key>
+        <key name="window-width" type="i">
+            <default>700</default>
+            <summary>Main window width</summary>
+            <description>The saved width of the main window</description>
+        </key>
+        <key name="window-pos-x" type="i">
+            <default>300</default>
+            <summary>Main window horizontal position</summary>
+            <description>The saved horizontal position of the main window</description>
+        </key>
+        <key name="window-pos-y" type="i">
+            <default>360</default>
+            <summary>Main window vertical position</summary>
+            <description>The saved vertical position of the main window</description>
+        </key>
+    </schema>
+</schemalist>
