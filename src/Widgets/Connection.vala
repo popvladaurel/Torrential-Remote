@@ -7,6 +7,7 @@ public class TorrentialRemote.Connection : Gtk.Grid {
          );
      }
 
+     //TODO rebuild this, remove deprecated
      construct {
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
         box.expand = true;

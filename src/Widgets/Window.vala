@@ -4,6 +4,7 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	public HeaderBar headerBar;
 	private Gtk.Box box;
 
+
 	public Window (Application application) {
 		Object (
 			application: application
