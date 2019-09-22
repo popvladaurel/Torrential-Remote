@@ -2,6 +2,8 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 
 	public Settings settings;
 	public HeaderBar headerBar;
+	private Gtk.Box box;
+
 
 	public Window (Application application) {
 		Object (
@@ -10,8 +12,11 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	}
 
 	construct {
-		headerBar = new HeaderBar ();
+		headerBar = new HeaderBar (this);
 		set_titlebar(headerBar);
+
+        box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        add(box);
 
 		settings = new Settings ("com.github.popvladaurel.torrential-remote");
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
@@ -21,11 +26,11 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	 		return before_destroy ();
 	 	});
 
-		Gtk.Grid grid = new Gtk.Grid ();
-		grid.add (new Welcome());
-		add(grid);
-
 	 	show_all ();
+
+	 	if (!serverSaved()) {
+	 	    showWelcome();
+	 	}
 	}
 
 	public bool before_destroy () {
@@ -41,4 +46,33 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 
 		return false;
 	}
+
+	public void showConnection () {
+	    cleanBox();
+		application.send_notification(null, new Notification ("showing connections"));
+		Connection connection = new Connection(this);
+		box.add(connection);
+		show_all();
+	}
+
+	public void showWelcome () {
+	    cleanBox();
+		application.send_notification(null, new Notification ("showing welcome"));
+        Welcome welcome = new Welcome (this);
+		box.add(welcome);
+		show_all();
+	}
+
+	public void cleanBox() {
+        List<Gtk.Widget> children = box.get_children();
+        foreach (Gtk.Widget element in children) {
+            box.remove(element);
+        }
+    }
+
+    //TODO Implement verifcation for saved torrent settings
+    public bool serverSaved () {
+        return false;
+    }
+
 }

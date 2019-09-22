@@ -5,6 +5,7 @@ executable(
     'Widgets/Window.vala',
     'Widgets/HeaderBar.vala',
     'Widgets/Welcome.vala',
+    'Widgets/Connection.vala',
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('unity'),
