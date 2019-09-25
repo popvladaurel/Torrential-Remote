@@ -19,9 +19,15 @@ public class TorrentialRemote.Connection : Gtk.Grid {
         Gtk.ButtonBox buttonBox = new Gtk.ButtonBox(Gtk.Orientation.HORIZONTAL);
         Gtk.Button save = new Gtk.Button.with_label("Save");
         Gtk.Button cancel = new Gtk.Button.with_label("Cancel");
+        
         cancel.clicked.connect(e => {
             window.showWelcome();
         });
+        
+        save.clicked.connect (e => {
+		    window.showTorrents();
+        });
+        
         buttonBox.add(save);
         buttonBox.add(cancel);
 

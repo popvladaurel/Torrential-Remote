@@ -47,6 +47,14 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 		return false;
 	}
 
+	public void showTorrents () {
+		cleanBox();
+		application.send_notification(null, new Notification ("showing torrents"));
+		Torrents torrents = new Torrents(this);
+		box.add(torrents);
+		show_all();
+	}
+
 	public void showConnection () {
 	    cleanBox();
 		application.send_notification(null, new Notification ("showing connections"));
