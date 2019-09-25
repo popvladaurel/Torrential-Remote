@@ -9,6 +9,7 @@ public class TorrentialRemote.Torrents : Gtk.Grid {
 
     construct {
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+        Gtk.ScrolledWindow scroll = new Gtk.ScrolledWindow(null, null);
         box.expand = true;
         box.margin = 100;
         box.margin_left = 200;
@@ -32,7 +33,8 @@ public class TorrentialRemote.Torrents : Gtk.Grid {
            }
         
         
-        add(box);
+        scroll.add(box);
+        add(scroll);
     }
     
     private void buildBox() {
