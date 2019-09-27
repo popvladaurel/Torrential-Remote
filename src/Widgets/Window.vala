@@ -3,7 +3,7 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	public Settings settings;
 	public HeaderBar headerBar;
 	private Gtk.Box box;
-
+	private Gtk.ScrolledWindow scroll;
 
 	public Window (Application application) {
 		Object (
@@ -15,8 +15,8 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 		headerBar = new HeaderBar (this);
 		set_titlebar(headerBar);
 
+		scroll = new Gtk.ScrolledWindow(null, null);
         box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-        add(box);
 
 		settings = new Settings ("com.github.popvladaurel.torrential-remote");
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
@@ -24,12 +24,13 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 
 		delete_event.connect (e => {
 	 		return before_destroy ();
-	 	});
+		 });
 
-	 	show_all ();
+		scroll.add(box);
+		add(scroll);
 
 	 	if (!serverSaved()) {
-	 	    showWelcome();
+			Timeout.add(1000, showTorrents);
 	 	}
 	}
 
@@ -47,12 +48,12 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 		return false;
 	}
 
-	public void showTorrents () {
+	public bool showTorrents () {
 		cleanBox();
-		application.send_notification(null, new Notification ("showing torrents"));
 		Torrents torrents = new Torrents(this);
 		box.add(torrents);
 		show_all();
+		return true;
 	}
 
 	public void showConnection () {

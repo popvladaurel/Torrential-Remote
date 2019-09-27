@@ -7,8 +7,8 @@ public class TorrentialRemote.Transmission {
    private string password;
    private string path;
    private string sessionid;
-   private static string[] std_fields = { "id","name","eta","status","percentDone","haveValid", "uploadedEver","peersConnected","rateDownload","rateUpload","sizeWhenDone","files"};
-   private static int[] std_ids = {42, 66};
+   private static string[] std_fields = { "id","name","eta","status","recheckProgress", "percentDone","haveValid", "uploadedEver","peersConnected","rateDownload","rateUpload","sizeWhenDone","files"};
+   private static int[] std_ids;
 
    public Transmission(string host, int port, string? user, string? password) {
       if(user != null && password != null) {
@@ -47,10 +47,10 @@ public class TorrentialRemote.Transmission {
       args.set_array_member("fields", fields);
 
 
-      var ids = new Json.Array();
-      foreach (int i in std_ids)
-         ids.add_int_element(i);
-      args.set_array_member("ids", ids);
+      //  var ids = new Json.Array();
+      //  foreach (int i in std_ids)
+      //     ids.add_int_element(i);
+      //  args.set_array_member("ids", ids);
 
       //Send the request json to the server and carry the sessionid along with the request
       // json = gen.to_data(null);

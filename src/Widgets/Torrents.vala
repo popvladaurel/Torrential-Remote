@@ -9,7 +9,6 @@ public class TorrentialRemote.Torrents : Gtk.Grid {
 
     construct {
         Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-        Gtk.ScrolledWindow scroll = new Gtk.ScrolledWindow(null, null);
         box.expand = true;
         
         Transmission client = new Transmission("192.168.100.101", 9091, "transmission", null);
@@ -22,7 +21,6 @@ public class TorrentialRemote.Torrents : Gtk.Grid {
            box.add(row.getRow(obj));
         }
                 
-        scroll.add(box);
-        add(scroll);
+        add(box);
     }
 }

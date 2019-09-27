@@ -100,13 +100,13 @@ public class TorrentialRemote.TorrentRow : Gtk.ListBoxRow {
 
         progress = new Gtk.ProgressBar ();
         progress.hexpand = true;
-        progress.fraction = torrent.get_double_member("percentDone");
+        
 
         //TODO replace with torrent.isDownloading
         if (torrent.get_int_member("status") == 6) {
            progress.get_style_context ().add_provider (green_progress_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
         }
-        grid.attach (progress, 1, 2, 1, 1);
+        progress.fraction = torrent.get_double_member("percentDone");
 
         //TODO replace with torrent is paused
          if (torrent.get_int_member("status") != torrentStatus.STOPPED) {
@@ -131,7 +131,9 @@ public class TorrentialRemote.TorrentRow : Gtk.ListBoxRow {
             case 1:
                 statusText = "Queued to check files"; break;
             case 2:
-                statusText = "Checking files"; break;
+                statusText = "Checking files";
+                progress.fraction = torrent.get_double_member("recheckProgress");
+                 break;
             case 3:
                 statusText = "Queued to download files"; break;
             case 5:
@@ -148,6 +150,8 @@ public class TorrentialRemote.TorrentRow : Gtk.ListBoxRow {
          default:
              break;
          }
+
+         grid.attach (progress, 1, 2, 1, 1);
 
         status = new Gtk.Label ("<small>%s</small>".printf (statusText));
         status.halign = Gtk.Align.START;
