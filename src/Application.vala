@@ -8,7 +8,7 @@ public class Application : Gtk.Application {
 	}
 
 	protected override void activate () {
-		TorrentialRemote.Window window = new TorrentialRemote.Window (this);
+		TorrentialRemote.Window window = new TorrentialRemote.Window ();
 
 		add_window (window);
 	}
