@@ -1,4 +1,4 @@
-public class TorrentialRemote.Models.Server : Object {
+public class Models.Server : Object {
 
    public string url { get; set; default = "http://localhost:9091/transmission/rpc";}
    public string path { get; set; default = "/transmission/rpc"; }

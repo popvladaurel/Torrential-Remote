@@ -1,12 +1,12 @@
-public class TorrentialRemote.Window : Gtk.ApplicationWindow {
+public class Window : Gtk.ApplicationWindow {
 
 	public Settings settings;
-	public HeaderBar headerBar;
+	public Widgets.HeaderBar headerBar;
 	private Gtk.Box box;
 	private Gtk.ScrolledWindow scroll;
 
 	construct {
-		headerBar = new HeaderBar (this);
+		headerBar = new Widgets.HeaderBar (this);
 		scroll = new Gtk.ScrolledWindow(null, null);
 		box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		settings = new Settings ("com.github.popvladaurel.torrential-remote");
@@ -20,7 +20,7 @@ public class TorrentialRemote.Window : Gtk.ApplicationWindow {
 	}
 
 	public Window () {
-		Torrents torrents = new Torrents();
+		Widgets.Torrents torrents = new Widgets.Torrents();
 		
 		box.add(torrents);
 		scroll.add(box);

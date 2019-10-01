@@ -9,6 +9,7 @@ executable(
     'Models/Torrent.vala',
     'Models/Server.vala',
     'Models/Client.vala',
+    'Enums/Statuses.vala',
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('unity'),

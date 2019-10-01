@@ -1,5 +1,5 @@
-public class TorrentialRemote.HeaderBar : Gtk.HeaderBar {
-    public TorrentialRemote.Window window { get; construct;}
+public class Widgets.HeaderBar : Gtk.HeaderBar {
+    public Window window { get; construct;}
 
     public HeaderBar (Window window) {
          Object (
