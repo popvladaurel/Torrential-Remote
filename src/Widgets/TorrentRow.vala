@@ -12,6 +12,7 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
     public Models.Torrent torrent;
 
     private Gtk.CssProvider green_progress_provider;
+    private Gtk.CssProvider red_progress_provider;
 
     private const string PAUSE_ICON_NAME = "media-playback-pause-symbolic";
     private const string RESUME_ICON_NAME = "media-playback-start-symbolic";
@@ -20,8 +21,10 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
 
     construct {
         green_progress_provider = new Gtk.CssProvider ();
+        red_progress_provider = new Gtk.CssProvider ();
         try {
            green_progress_provider.load_from_data ("@define-color selected_bg_color @success_color;");
+           red_progress_provider.load_from_data ("@define-color selected_bg_color @error_color;");
         } catch (Error e) {
            warning ("Failed to load custom CSS to make green progress bars. Error: %s", e.message);
         }
@@ -49,8 +52,20 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
         progress = new Gtk.ProgressBar ();
         progress.hexpand = true;
         progress.fraction = torrent.progress();
-        if (torrent.status == 6)
+
+        
+
+        if (torrent.status == Enums.Statuses.CHECK) {
+            progress.fraction = torrent.recheckProgress;
+            double progresssss = progress.fraction;
+            stderr.printf(@"Thread error: $progresssss\n");
+        }
+
+        if (torrent.status == Enums.Statuses.SEED)
             progress.get_style_context ().add_provider (green_progress_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+
+        if (torrent.error > 0)
+            progress.get_style_context ().add_provider (red_progress_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 
         pause = new Gtk.Button.from_icon_name (PAUSE_ICON_NAME);
         pause.tooltip_text = "Pause torrent";

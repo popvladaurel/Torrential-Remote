@@ -61,7 +61,7 @@ public class Models.Torrent : Object {
     private uint rateUpload { get; set; }
     
     // Progress of recheck. 0.0 to 1.0.
-    private double recheckProgress { get; set; } 
+    public double recheckProgress { get; set; } 
 
     // Size of the torrent download in bytes.
     private uint sizeWhenDone { get; set; } 
@@ -71,6 +71,9 @@ public class Models.Torrent : Object {
     
     // Current status, see source
     public int status { get; set; }
+
+    public int error { get; set; }
+    public string errorString { get; set; }
     
     public class Torrent(Json.Object? torrent) {
         this.torrent = torrent;
@@ -97,6 +100,8 @@ public class Models.Torrent : Object {
         peersSendingToUs = getInteger ("peersSendingToUs");
         recheckProgress = getDouble ("recheckProgress");
         peersGettingFromUs = getInteger ("peersGettingFromUs");
+        error = getInteger ("error");
+        errorString = getString ("errorString");
     }
 
     public GLib.Icon icon () {
@@ -123,13 +128,9 @@ public class Models.Torrent : Object {
                 return "%s of %s".printf (format_size (haveValid), format_size (sizeWhenDone)
                 );
             case 4:
-                return "%s of %s — %s remaining".printf (
-                    format_size (haveValid), format_size (sizeWhenDone), time_to_string (eta)
-                );
+                return "%s of %s — %s remaining".printf (format_size (haveValid), format_size (sizeWhenDone), time_to_string (eta));
             case 6:
-                return "%s uploaded".printf (
-                    format_size (uploadedEver)
-                );
+                return "%s uploaded".printf (format_size (uploadedEver));
             default:
                 return "";
         }   
@@ -138,6 +139,10 @@ public class Models.Torrent : Object {
     public double progress () {
         return percentDone;
     }
+
+    //  public double recheckProgress () {
+    //      return recheckProgress;
+    //  }
 
     public string state () {
         switch (status) {
@@ -157,6 +162,8 @@ public class Models.Torrent : Object {
                         peersSendingToUs, peersConnected, format_size (rateDownload), format_size (rateUpload)
                     );
                 case 6:
+                    if (error > 0)
+                        return "Tracker error: %s".printf (errorString);
                     return "Seeding to %i of %i peers connected. \u2b06%s".printf (
                         peersGettingFromUs, peersConnected, format_size (rateUpload)
                     ); 
@@ -221,19 +228,16 @@ public class Models.Torrent : Object {
         var formatted = "";
         if (totalSeconds == -1) {
             formatted = "...";
-        }
-        else if (days > 0) {
+        } else if (days > 0) {
             formatted = "%s, %s, %s, %s".printf (str_days, str_hours, str_minutes, str_seconds);
-        }
-        else if (hours > 0) {
+        } else if (hours > 0) {
             formatted = "%s, %s, %s".printf (str_hours, str_minutes, str_seconds);
-        }
-        else if (minutes > 0) {
+        } else if (minutes > 0) {
             formatted = "%s, %s".printf (str_minutes, str_seconds);
-        }
-        else if (seconds > 0) {
+        } else if (seconds > 0) {
             formatted = str_seconds;
         }
+
         return formatted;
     }
    

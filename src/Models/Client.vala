@@ -14,7 +14,7 @@ public class Models.Client : Object {
     /* List of mandatory fields needed to render the Torrents Widget */
     private static string[] mandatory = {
         "id", "name", "eta", "status", "recheckProgress", "percentDone", "haveValid", "uploadedEver", "peersConnected",
-        "peersSendingToUs", "peersGettingFromUs",  "rateDownload","rateUpload", "sizeWhenDone", "files"
+        "peersSendingToUs", "peersGettingFromUs",  "rateDownload","rateUpload", "sizeWhenDone", "files", "error", "errorString",
     };
 
     public Client (Models.Server server) {

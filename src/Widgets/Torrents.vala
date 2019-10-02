@@ -74,6 +74,9 @@ public class Widgets.Torrents : Gtk.Grid {
                         row.state.set_text(torrent2.state());
                         row.progress.fraction = torrent2.percentDone;
                         //TODO Also change the pause button's icon
+                        if (torrent2.status == Enums.Statuses.CHECK) {
+                            row.progress.fraction = torrent2.recheckProgress;
+                        }
                     }
                 }
                 torrents2.remove(node);
