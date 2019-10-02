@@ -1,3 +1,7 @@
+public errordomain MyError {
+    INVALID_DATA
+}
+
 public class Models.Client : Object {
 
     private Json.Node root = new Json.Node (Json.NodeType.OBJECT);
@@ -29,7 +33,6 @@ public class Models.Client : Object {
         return send("torrent-get", null, fields);
     }
 
-
     private GLib.List<weak Json.Node> send (string method, Json.Array? ids, Json.Array? fields) {
         root.set_object (body);
         generator.set_root (root);
@@ -46,7 +49,11 @@ public class Models.Client : Object {
         this.message.request_headers.append ("X-Transmission-Session-Id", sessionId);
         session.send_message (message);
         //TODO treat Json.Parser errors here
-        parser.load_from_data ((string) message.response_body.flatten ().data, -1);
+        try {
+            parser.load_from_data ((string) message.response_body.flatten ().data, -1);
+        } catch (MyError.INVALID_DATA e) {
+            stderr.printf("INVALID DATA");
+        }
 
         return parser.get_root ().get_object ().get_object_member ("arguments").get_array_member ("torrents").get_elements ();   
     }

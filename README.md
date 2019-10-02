@@ -2,6 +2,8 @@
 
 Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torrential](https://github.com/davidmhewitt/torrential) application, Torrential Remote allows for the remote management of multiple torrent servers.
 
+![Torrents Page](screenshots/Torrents.png "Torrents")
+
 ## TODO
 - [x] Retrieve the torrents from a server
 - [x] Show the torrents in a list
@@ -28,8 +30,3 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torren
     cd build
     ninja
     sudo ninja install
-
-**Screenshots**  
-
-![Welcome Page](screenshots/Welcome.png "Welcome")
-![Torrents Page](screenshots/Torrents.png "Torrents")

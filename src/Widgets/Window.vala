@@ -20,12 +20,59 @@ public class Window : Gtk.ApplicationWindow {
 	}
 
 	public Window () {
-		Widgets.Torrents torrents = new Widgets.Torrents();
+		Gtk.Paned paned = new Gtk.Paned(Gtk.Orientation.HORIZONTAL);
+
+		Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+		Granite.Widgets.SourceList servers = new Granite.Widgets.SourceList ();
+		servers.vexpand = true;
+		servers.margin_left = 5;
+
+
+		//TODO generate an item for each server
+		Granite.Widgets.SourceList.Item  server1 = new Granite.Widgets.SourceList.Item ("Server1");
+
+		int i = 1;
+		while (i < 5) {
+			Granite.Widgets.SourceList.Item server = new Granite.Widgets.SourceList.Item ("Server %i".printf(i));
+			server.icon = new ThemedIcon("network-server");
+			servers.root.add(server);
+			i++;
+		}
 		
-		box.add(torrents);
-		scroll.add(box);
-		add(scroll);
+		box.pack_start(servers, true, true, 0);
+
+		Gtk.ActionBar actions = new Gtk.ActionBar();
+		//  Gtk.Box actions = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+		Gtk.Button plus = new Gtk.Button.from_icon_name ("list-add", Gtk.IconSize.SMALL_TOOLBAR);
+
+		plus.clicked.connect (() => {
+			GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+		});
+
+		Gtk.Button minus = new Gtk.Button.from_icon_name ("list-remove", Gtk.IconSize.SMALL_TOOLBAR);
+
+		minus.clicked.connect (() => {
+			GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+		});
+
+		actions.pack_start(plus);
+		actions.pack_start(minus);
+
+		//  action.add(actions);
+
+		box.pack_end(actions, false, true, 0);
+
+
+		//TODO restore pane position from gsettings
+		paned.position = 150;
+		paned.wide_handle = true;
+		paned.pack1 (box, false, false);
+					
+		Widgets.Torrents torrents = new Widgets.Torrents();
+		scroll.add(torrents);
+		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);
+		add(paned);
 		show_all();
 
 	}
@@ -35,6 +82,7 @@ public class Window : Gtk.ApplicationWindow {
 
 		get_size (out width, out height);
 		get_position (out x, out y);
+		//TODO get pane position and save it
 
 		settings.set_int ("window-pos-x", x);
 		settings.set_int ("window-pos-y", y);

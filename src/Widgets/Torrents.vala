@@ -1,4 +1,4 @@
-public class Widgets.Torrents : Gtk.Grid {
+public class Widgets.Torrents : Gtk.ListBox {
     public Models.Server server;
     public Models.Client client;
     public List<Json.Node> torrents;
