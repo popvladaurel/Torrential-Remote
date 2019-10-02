@@ -57,8 +57,6 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
 
         if (torrent.status == Enums.Statuses.CHECK) {
             progress.fraction = torrent.recheckProgress;
-            double progresssss = progress.fraction;
-            stderr.printf(@"Thread error: $progresssss\n");
         }
 
         if (torrent.status == Enums.Statuses.SEED)
