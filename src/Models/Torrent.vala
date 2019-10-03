@@ -222,7 +222,7 @@ public class Models.Torrent : Object {
 
         var formatted = "";
         if (totalSeconds == -1) {
-            formatted = "...";
+            formatted = "Unknown time ";
         } else if (days > 0) {
             formatted = "%s, %s, %s, %s".printf (str_days, str_hours, str_minutes, str_seconds);
         } else if (hours > 0) {
