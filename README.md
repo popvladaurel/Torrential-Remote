@@ -2,7 +2,7 @@
 
 Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torrential](https://github.com/davidmhewitt/torrential) application, Torrential Remote allows for the remote management of multiple torrent servers.
 
-![Torrents Page](screenshots/Torrents.png "Torrents")
+![Torrents Page](data/screenshots/Torrents.png "Torrents")
 
 ## TODO
 - [x] Retrieve the torrents from a server

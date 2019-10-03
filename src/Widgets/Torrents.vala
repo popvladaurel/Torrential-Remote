@@ -10,12 +10,9 @@ public class Widgets.Torrents : Gtk.ListBox {
     }
 
     public Torrents () {
-        
 
         // move this to an async method to improve start-up time
-        Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
         rows = new List<TorrentRow> ();
-        box.expand = true;
         
         torrents = client.all();
 
@@ -27,11 +24,9 @@ public class Widgets.Torrents : Gtk.ListBox {
                 GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
             });
             rows.append(row);
-            box.add(row);
+            prepend(row);
         }
                 
-        add(box);
-
         var loop = new MainLoop();
         TimeoutSource time = new TimeoutSource (2000);
         var count = 0;
