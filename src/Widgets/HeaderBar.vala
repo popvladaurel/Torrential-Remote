@@ -2,10 +2,10 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
     public Window window { get; construct;}
 
     public HeaderBar (Window window) {
-         Object (
-             window: window
-         );
-     }
+        Object (
+            window: window
+        );
+    }
 
     construct {
         title = "Torrential Remote";
@@ -22,29 +22,29 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
     private void open () {
         File file = null;
         
-            Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-                "Select a file to edit", this.window, Gtk.FileChooserAction.OPEN,
-                "_Cancel",
-                Gtk.ResponseType.CANCEL,
-                "_Open",
-                Gtk.ResponseType.ACCEPT);
-            chooser.set_select_multiple (false);
-            chooser.run ();
-            chooser.close ();
-            if (chooser.get_file () != null) {
-                file = chooser.get_file ();
+        Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
+            "Select a file to edit", this.window, Gtk.FileChooserAction.OPEN,
+            "_Cancel",
+            Gtk.ResponseType.CANCEL,
+            "_Open",
+            Gtk.ResponseType.ACCEPT);
+        chooser.set_select_multiple (false);
+        chooser.run ();
+        chooser.close ();
+        if (chooser.get_file () != null) {
+            file = chooser.get_file ();
 
-                try {
-                    uint8[] contents;
-                    string etag_out;
-                    file.load_contents (null, out contents, out etag_out);
-                    //TODO Add torrent from file
-                    stderr.printf((string) contents);
-                    GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
-                } catch (Error e) {
-                    stdout.printf ("Error: %s\n", e.message);
-                }
+            try {
+                uint8[] contents;
+                string etag_out;
+                file.load_contents (null, out contents, out etag_out);
+                //TODO Add torrent from file
+                stderr.printf((string) contents);
+                GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+            } catch (Error e) {
+                stdout.printf ("Error: %s\n", e.message);
             }
+        }
     }
 
     private void magnet () {
@@ -90,8 +90,8 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
         int response = dialog.run ();
         if (response == Gtk.ResponseType.OK) {
             //TODO torrent from link
-            stderr.printf((string) entry.text);
-            GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+            Models.Client client = new Models.Client(window.server);
+            client.addFromMagnet (entry.text);
         }
 
         dialog.destroy ();

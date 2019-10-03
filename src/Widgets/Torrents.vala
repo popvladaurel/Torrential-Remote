@@ -1,37 +1,37 @@
 public class Widgets.Torrents : Gtk.ListBox {
     public Models.Server server;
     public Models.Client client;
-    public List<Json.Node> torrents;
     public List<TorrentRow> rows;
+    public Window window;
 
-    construct {
-        server = new Models.Server ("192.168.100.101", 9091, null, null);
-        client = new Models.Client (server);
-    }
+    
 
-    public Torrents () {
+    public Torrents (Window window) {
+        this.window = window;
 
         // move this to an async method to improve start-up time
         rows = new List<TorrentRow> ();
-        
-        torrents = client.all();
+        Models.Client client = new Models.Client (window.server);
 
-        foreach (Json.Node node in torrents) {
-            Models.Torrent torrent = new Models.Torrent(node.get_object());
-            TorrentRow row = new TorrentRow(torrent);
+        Json.Array torrents = client.all();
 
-            row.pause.clicked.connect (() => {
-                GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
-            });
-            rows.append(row);
-            prepend(row);
+        foreach (Json.Node node in torrents.get_elements()) {
+                Models.Torrent torrent = new Models.Torrent(node);
+                TorrentRow row = new TorrentRow(torrent);
+
+                row.pause.clicked.connect (() => {
+                    GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+                });
+                rows.append(row);
+                prepend(row);
+            
         }
                 
         var loop = new MainLoop();
         TimeoutSource time = new TimeoutSource (2000);
         var count = 0;
         time.set_callback (() => {
-            do_calc_in_bg.begin(0.001, rows, (obj, res) => {
+            do_calc_in_bg.begin(rows, (obj, res) => {
                 try {
                     count++;
                     double result = do_calc_in_bg.end(res);
@@ -50,19 +50,20 @@ public class Widgets.Torrents : Gtk.ListBox {
         loop.run();
     }
 
-    async double do_calc_in_bg(double val, List<TorrentRow> rows) throws ThreadError {
+    async double do_calc_in_bg(List<TorrentRow> rows) throws ThreadError {
         SourceFunc callback = do_calc_in_bg.callback;
         double[] output = new double[1];
-        List<weak Json.Node> torrents2 = new List<weak Json.Node>();
-        torrents2 = client.all();
+        Models.Client client = new Models.Client (window.server);
+
+        Json.Array torrents2 = client.all();
 
     
         // Hold reference to closure to keep it from being freed whilst
         // thread is active.
         ThreadFunc<bool> run = () => {
 
-            foreach (Json.Node node in torrents2) {
-                Models.Torrent torrent2 = new Models.Torrent(node.get_object());
+            foreach (Json.Node node in torrents2.get_elements()) {
+                Models.Torrent torrent2 = new Models.Torrent(node);
                 foreach (TorrentRow row in rows) {
                     if (row.id == torrent2.id) {
                         row.stats.set_text(torrent2.stats());
@@ -74,11 +75,11 @@ public class Widgets.Torrents : Gtk.ListBox {
                         }
                     }
                 }
-                torrents2.remove(node);
+                //  torrents2.remove(node);
             }
 
             
-            output[0] = torrents2.length();
+            output[0] = torrents2.get_length();
             Idle.add((owned) callback);
             return true;
         };

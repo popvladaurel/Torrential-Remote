@@ -1,19 +1,7 @@
-public errordomain MyError {
-    INVALID_DATA
-}
-
 public class Models.Client : Object {
 
-    private Json.Node root = new Json.Node (Json.NodeType.OBJECT);
-    private Json.Object body = new Json.Object ();
-    private Json.Generator generator = new Json.Generator ();
-    private Json.Object arguments = new Json.Object ();
-    private Json.Parser parser = new Json.Parser ();
-    private Json.Array fields = new Json.Array ();
-    private Soup.Session session = new Soup.Session();
-
-    private Soup.Message message;
-    private string sessionId;
+    public string sessionId { get; set; }
+    public string url { get; set; }
 
     /* List of mandatory fields needed to render the Torrents Widget */
     private static string[] mandatory = {
@@ -21,40 +9,79 @@ public class Models.Client : Object {
         "peersSendingToUs", "peersGettingFromUs",  "rateDownload","rateUpload", "sizeWhenDone", "files", "error", "errorString",
     };
 
+    private static int[] idx = {23, 66, 42, 34, 74};
+
     public Client (Models.Server server) {
-        this.message = new Soup.Message ("POST", server.url);
-        this.sessionId = server.sessionId;
+        Object (
+            url: server.url,
+            sessionId: server.sessionId
+        );
     }
 
-    public GLib.List<weak Json.Node> all () {
-        foreach (string field in mandatory) 
-            fields.add_string_element (field);
-        
-        return send("torrent-get", null, fields);
-    }
-
-    private GLib.List<weak Json.Node> send (string method, Json.Array? ids, Json.Array? fields) {
+    public Json.Array all () {
+        Soup.Session session = new Soup.Session ();
+        Soup.Message message = new Soup.Message ("POST", url);
+        Json.Node root = new Json.Node (Json.NodeType.OBJECT);
+        Json.Generator generator = new Json.Generator ();
+        Json.Object arguments = new Json.Object ();
+        Json.Object body = new Json.Object ();
+        Json.Parser parser = new Json.Parser ();
         root.set_object (body);
         generator.set_root (root);
 
-        if (ids != null) 
-            arguments.set_array_member ("ids", ids);
+        Json.Array fields = new Json.Array ();
+        foreach (string field in mandatory) 
+            fields.add_string_element (field);
+
+        //  Json.Array ids = new Json.Array ();
+        //  foreach (int id in idx) 
+        //      ids.add_int_element (id);
         
-        if (fields != null && fields.get_length () > 0) 
-            arguments.set_array_member ("fields", fields);
-        
-        body.set_string_member ("method", method);
+        arguments.set_array_member ("fields", fields);
+        //  arguments.set_array_member ("ids", ids);
+
+        body.set_string_member ("method", "torrent-get");
         body.set_object_member ("arguments", arguments);
-        this.message.set_request ("text/html", Soup.MemoryUse.COPY, generator.to_data(null).data);
-        this.message.request_headers.append ("X-Transmission-Session-Id", sessionId);
+        message.set_request ("text/html", Soup.MemoryUse.COPY, generator.to_data(null).data);
+        message.request_headers.append ("X-Transmission-Session-Id", sessionId);
         session.send_message (message);
-        //TODO treat Json.Parser errors here
+
         try {
             parser.load_from_data ((string) message.response_body.flatten ().data, -1);
-        } catch (MyError.INVALID_DATA e) {
-            stderr.printf("INVALID DATA");
+        } catch (Error e) {
+            print ("Unable to parse data: %s\n", e.message);
+            return new Json.Array();
+        }
+        
+        root = parser.get_root ();
+        body = root.get_object ();
+        if (body.has_member ("arguments")) {
+            arguments = body.get_object_member ("arguments");
+            if (arguments.has_member ("torrents")) {
+                return arguments.get_array_member ("torrents");
+            }
+            
         }
 
-        return parser.get_root ().get_object ().get_object_member ("arguments").get_array_member ("torrents").get_elements ();   
+        return new Json.Array();
+    }
+
+    public void addFromMagnet (string file) {
+        Soup.Message message = new Soup.Message ("POST", url);
+        Json.Node root = new Json.Node (Json.NodeType.OBJECT);
+        Json.Generator generator = new Json.Generator ();
+        Soup.Session session = new Soup.Session ();
+        Json.Object arguments = new Json.Object ();
+        Json.Object body = new Json.Object ();
+
+        root.set_object (body);
+        generator.set_root (root);
+        
+        arguments.set_string_member("filename", file);
+        body.set_string_member ("method", "torrent-add");
+        body.set_object_member ("arguments", arguments);
+        message.set_request ("text/html", Soup.MemoryUse.COPY, generator.to_data(null).data);
+        message.request_headers.append ("X-Transmission-Session-Id", sessionId);
+        session.send_message (message);
     }
 }

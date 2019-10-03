@@ -4,6 +4,7 @@ public class Window : Gtk.ApplicationWindow {
 	public Widgets.HeaderBar headerBar;
 	private Gtk.Box box;
 	private Gtk.ScrolledWindow scroll;
+	public Models.Server server;
 
 	construct {
 		headerBar = new Widgets.HeaderBar (this);
@@ -17,6 +18,8 @@ public class Window : Gtk.ApplicationWindow {
 		delete_event.connect (e => {
 	 		return before_destroy ();
 		});
+
+		server = new Models.Server ("192.168.100.101", 9091, null, null);
 	}
 
 	public Window () {
@@ -46,12 +49,14 @@ public class Window : Gtk.ApplicationWindow {
 		Gtk.Button plus = new Gtk.Button.from_icon_name ("list-add", Gtk.IconSize.SMALL_TOOLBAR);
 
 		plus.clicked.connect (() => {
+			//Show the add server dialog
 			GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
 		});
 
 		Gtk.Button minus = new Gtk.Button.from_icon_name ("list-remove", Gtk.IconSize.SMALL_TOOLBAR);
 
 		minus.clicked.connect (() => {
+			//Remove the selected server
 			GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
 		});
 
@@ -68,7 +73,7 @@ public class Window : Gtk.ApplicationWindow {
 		paned.wide_handle = true;
 		paned.pack1 (box, false, false);
 					
-		Widgets.Torrents torrents = new Widgets.Torrents();
+		Widgets.Torrents torrents = new Widgets.Torrents(this);
 		scroll.add(torrents);
 		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);

@@ -11,7 +11,7 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torren
 - [ ] Add server dialog and welcome page
 - [ ] Build saved servers side panel
 - [ ] Add torrent from file
-- [ ] Add torrent from magnet link
+- [x] Add torrent from magnet link
 - [ ] Remove torrent
 - [ ] Torrents sorting and filtering
 

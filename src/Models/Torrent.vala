@@ -7,114 +7,160 @@ public class Models.Torrent : Object {
     public string name { get; set; }
     
     // Last time of upload or download activity.
-    private int activityDate { get; set; } 
+    public int activityDate { get; set; } 
     
     // The date when this torrent was first added.
-    private int addedDate { get; set; }  
+    public int addedDate { get; set; }  
     
     // Torrent creation date.
-    private int dateCreated { get; set; } 
+    public int dateCreated { get; set; } 
 
     // The date when the torrent finished downloading.   
-    private int doneDate { get; set; }
+    public int doneDate { get; set; }
     
     // Estimated number of seconds left when downloading or seeding. -1 means not available and -2 means unknown.
-    private uint eta { get; set; }  
+    public uint eta { get; set; }  
     
     // Array of file object containing key, bytesCompleted, length and name.
-    private Json.Array files { get; set; } 
+    public Json.Array files { get; set; } 
     
     // Session unique torrent id.
     public int id { get; set; }  
     
     // True if the torrent is finished. Downloaded and seeded.
-    private bool isFinished { get; set; }
+    public bool isFinished { get; set; }
     
     // True if the torrent has stalled - been idle for a long time.
-    private bool isStalled { get; set; }  
+    public bool isStalled { get; set; }  
     
     // Number of bytes left until the download is done.
-    private uint leftUntilDone { get; set; }
+    public uint leftUntilDone { get; set; }
 
     // Number of total bytes uploaded.
-    private uint uploadedEver { get; set; }
+    public uint uploadedEver { get; set; }
     
     // Array of peer objects.
-    private Json.Array peers { get; set; }
+    public Json.Array peers { get; set; }
     
     // Number of peers we are connected to.
-    private int peersConnected { get; set; } 
+    public int peersConnected { get; set; } 
     
     // Number of peers we are sending data to.
-    private int peersGettingFromUs { get; set; } 
+    public int peersGettingFromUs { get; set; } 
 
     // Number of peers sending to us
-    private int peersSendingToUs { get; set; }
+    public int peersSendingToUs { get; set; }
     
     // Download progress of selected files. 0.0 to 1.0.
     public double percentDone { get; set; } 
     
     // Download rate in bps.
-    private uint rateDownload { get; set; } 
+    public uint rateDownload { get; set; } 
     
     // Upload rate in bps.
-    private uint rateUpload { get; set; }
+    public uint rateUpload { get; set; }
     
     // Progress of recheck. 0.0 to 1.0.
     public double recheckProgress { get; set; } 
 
     // Size of the torrent download in bytes.
-    private uint sizeWhenDone { get; set; } 
+    public uint sizeWhenDone { get; set; } 
 
     // Number of bytes of checksum verified data.
-    private uint haveValid { get; set; }
+    public uint haveValid { get; set; }
     
     // Current status, see source
     public int status { get; set; }
 
     public int error { get; set; }
     public string errorString { get; set; }
+
+    public int filesCount { get; set; }
+    public string firstFileName { get; set; }
     
-    public class Torrent(Json.Object? torrent) {
-        this.torrent = torrent;
-        id = getInteger ("id");
-        eta = getInteger64 ("eta");
-        name = getString ("name");
-        files = getArray ("files");
-        peers = getArray ("peers");
-        status = getInteger ("status");
-        doneDate = getInteger ("doneDate");
-        addedDate = getInteger ("addedDate");
-        addedDate = getInteger ("addedDate");
-        haveValid = getInteger64 ("haveValid");
-        rateUpload = getInteger64 ("rateUpload");
-        isStalled = getBoolean ("isStalled");
-        uploadedEver = getInteger ("uploadedEver");
-        activityDate = getInteger ("activityDate");
-        isFinished = getBoolean ("isFinished");
-        rateDownload = getInteger64 ("rateDownload");
-        sizeWhenDone = getInteger64 ("sizeWhenDone");
-        percentDone = getDouble ("percentDone");
-        leftUntilDone = getInteger64 ("leftUntilDone");
-        peersConnected = getInteger ("peersConnected");
-        peersSendingToUs = getInteger ("peersSendingToUs");
-        recheckProgress = getDouble ("recheckProgress");
-        peersGettingFromUs = getInteger ("peersGettingFromUs");
-        error = getInteger ("error");
-        errorString = getString ("errorString");
+    public class Torrent(Json.Node node) {
+      
+        Json.Reader reader = new Json.Reader(node);
+        foreach (string member in reader.list_members ()) {
+            switch (member) {
+                case "name":
+                case "errorString":
+                    if (reader.read_member (member) == true && reader.is_value())
+                        @set (member, reader.get_string_value ());
+                    reader.end_member ();
+                    break;
+                case "id":
+                case "error":
+                case "status":
+                case "doneDate":
+                case "addedDate":
+                case "uploadedEver":
+                case "activityDate":
+                case "peersConnected":
+                case "peersSendingToUs":
+                case "peersGettingFromUs":
+                    if (reader.read_member (member) == true && reader.is_value())
+                        @set (member, (int) reader.get_int_value ());
+                    reader.end_member ();
+                    break;
+                case "eta":
+                case "haveValid":
+                case "rateUpload":
+                case "rateDownload":
+                case "sizeWhenDone":
+                case "leftUntilDone":
+                    if (reader.read_member (member) == true && reader.is_value())
+                        @set (member, (uint) reader.get_int_value ());
+                    reader.end_member ();
+                    break;
+                case "percentDone":
+                case "recheckProgress":
+                    if (reader.read_member (member) == true && reader.is_value())
+                        @set (member, reader.get_double_value ());
+                    reader.end_member ();
+                    break;
+                case "isStalled":
+                case "isFinished":
+                    if (reader.read_member (member) == true && reader.is_value())
+                        @set (member, reader.get_boolean_value ());
+                    reader.end_member ();
+                    break;
+                case "files":
+                    if (reader.read_member (member) == true && reader.is_array()) {
+                        if (reader.count_elements() > 0 && reader.read_element (0) && reader.is_object()) {
+                            if (reader.read_member ("name") == true && reader.is_value()) {
+                                @set ("firstFileName", reader.get_string_value ());
+                                reader.end_member ();
+                            }
+                            reader.end_element ();
+                        } 
+                        @set (member, reader.get_value ());
+                        @set (member + "Count", reader.count_elements());
+                        reader.end_member ();
+                    }
+                    reader.end_member ();
+                    break;
+                case "peers":
+                    if (reader.read_member (member) == true && reader.is_array())
+                        @set (member, reader.get_value ());  
+                    reader.end_member ();
+                    break;
+                default:
+                    assert_not_reached ();
+            }
+        }
     }
 
     public GLib.Icon icon () {
-        if (files.get_length() > 1) {
-            return ContentType.get_icon ("inode/directory");
-        } else {
-            if (files != null && files.get_length() > 0) {
-               bool certain = false;
-               var content_type = ContentType.guess (files.get_object_element(0).get_string_member("name"), null, out certain);
-               return ContentType.get_icon (content_type);
-            }
-        }
 
+
+        if (filesCount > 1) {
+            return ContentType.get_icon ("inode/directory");
+        } else if (filesCount > 0) {
+            bool certain = false;
+            return ContentType.get_icon (ContentType.guess (firstFileName, null, out certain));
+        }
+        
         return ContentType.get_icon ("application/x-bittorrent");
     }
 
@@ -136,14 +182,6 @@ public class Models.Torrent : Object {
         }   
     }
 
-    public double progress () {
-        return percentDone;
-    }
-
-    //  public double recheckProgress () {
-    //      return recheckProgress;
-    //  }
-
     public string state () {
         switch (status) {
                 case 0:
@@ -152,7 +190,6 @@ public class Models.Torrent : Object {
                     return "Queued to check files";
                 case 2:
                     return "Checking files";
-                    //  progress.fraction = torrent.get_double_member("recheckProgress");
                 case 3:
                     return "Queued to download files";
                 case 5:
@@ -170,48 +207,6 @@ public class Models.Torrent : Object {
                 default:
                     return "";
              }
-    }
-
-    private int getInteger (string member) {
-        if (torrent.has_member (member))
-            return (int) torrent.get_int_member (member);
-
-        return 0;
-    }
-
-    private uint getInteger64 (string member) {
-        if (torrent.has_member (member))
-            return (uint) torrent.get_int_member (member);
-
-        return 0;
-    }
-
-    private string getString (string member) {
-        if (torrent.has_member (member))
-            return torrent.get_string_member (member);
-
-        return "";
-    }
-
-    private double getDouble (string member) {
-        if (torrent.has_member (member))
-            return (double) torrent.get_double_member (member);
-
-        return 0.0;
-    }
-
-    private bool getBoolean (string member) {
-        if (torrent.has_member (member))
-            return (bool) torrent.get_boolean_member (member);
-
-        return false;
-    }
-
-    private Json.Array getArray (string member) {
-        if (torrent.has_member (member))
-            return torrent.get_array_member (member);
-
-        return new Json.Array();
     }
 
     private static string time_to_string (uint totalSeconds) {

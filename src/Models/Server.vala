@@ -21,8 +21,8 @@ public class Models.Server : Object {
       if (user != null && password != null)
          auth.authenticate(user, password);
       else if (retry)
-         error("Wrong username/password");
+         stdout.printf ("Wrong username/password");
       else
-         error("Transmission server requires authentication");
+         stdout.printf ("Transmission server requires authentication");
    }
 }

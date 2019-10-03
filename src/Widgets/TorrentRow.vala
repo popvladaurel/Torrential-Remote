@@ -51,7 +51,7 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
         
         progress = new Gtk.ProgressBar ();
         progress.hexpand = true;
-        progress.fraction = torrent.progress();
+        progress.fraction = torrent.percentDone;
 
         
 
