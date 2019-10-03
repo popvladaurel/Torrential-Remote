@@ -53,10 +53,10 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
             null, 
             this.window,
             Gtk.DialogFlags.MODAL,
+            Gtk.Stock.CANCEL,
+            Gtk.ResponseType.CANCEL,
             Gtk.Stock.OK,
             Gtk.ResponseType.OK, 
-            Gtk.Stock.CANCEL,
-            Gtk.ResponseType.CANCEL, 
             null
         );
 
@@ -66,13 +66,14 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
             dialog.set_response_sensitive (Gtk.ResponseType.OK, entry.text.strip () != "");
         });
 
-        dialog.width_request = 350;
+        dialog.width_request = 500;
         dialog.get_content_area ().spacing = 7;
         dialog.get_content_area ().border_width = 10;
         dialog.get_content_area ().pack_start (new Gtk.Label ("Magnet URL:"));
         dialog.get_content_area ().pack_start (entry);
         dialog.get_widget_for_response (Gtk.ResponseType.OK).can_default = true;
         dialog.set_default_response (Gtk.ResponseType.OK);
+
         dialog.show_all ();
 
         var clipboard = Gtk.Clipboard.get (Gdk.SELECTION_CLIPBOARD);
