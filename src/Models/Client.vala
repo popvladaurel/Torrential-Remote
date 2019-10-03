@@ -9,7 +9,7 @@ public class Models.Client : Object {
         "peersSendingToUs", "peersGettingFromUs",  "rateDownload","rateUpload", "sizeWhenDone", "files", "error", "errorString",
     };
 
-    private static int[] idx = {23, 66, 42, 34, 74};
+    //  private static int[] idx = {23, 42, 74, 75, 76, 77};
 
     public Client (Models.Server server) {
         Object (
