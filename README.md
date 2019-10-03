@@ -14,6 +14,7 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torren
 - [x] Add torrent from magnet link
 - [ ] Remove torrent
 - [ ] Torrents sorting and filtering
+- [ ] Implement error messages
 
 ## Dependencies
 * valac
