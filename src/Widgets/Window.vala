@@ -30,10 +30,7 @@ public class Window : Gtk.ApplicationWindow {
 		servers.vexpand = true;
 		servers.margin_left = 5;
 
-
 		//TODO generate an item for each server
-		Granite.Widgets.SourceList.Item  server1 = new Granite.Widgets.SourceList.Item ("Server1");
-
 		int i = 1;
 		while (i < 5) {
 			Granite.Widgets.SourceList.Item server = new Granite.Widgets.SourceList.Item ("Server %i".printf(i));

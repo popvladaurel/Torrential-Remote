@@ -66,7 +66,7 @@ public class Models.Client : Object {
         return new Json.Array();
     }
 
-    public void addFromMagnet (string file) {
+    public void addFromMagnet (string link) {
         Soup.Message message = new Soup.Message ("POST", url);
         Json.Node root = new Json.Node (Json.NodeType.OBJECT);
         Json.Generator generator = new Json.Generator ();
@@ -77,7 +77,26 @@ public class Models.Client : Object {
         root.set_object (body);
         generator.set_root (root);
         
-        arguments.set_string_member("filename", file);
+        arguments.set_string_member("filename", link);
+        body.set_string_member ("method", "torrent-add");
+        body.set_object_member ("arguments", arguments);
+        message.set_request ("text/html", Soup.MemoryUse.COPY, generator.to_data(null).data);
+        message.request_headers.append ("X-Transmission-Session-Id", sessionId);
+        session.send_message (message);
+    }
+
+    public void addFromFile (uint8[] file) {
+        Soup.Message message = new Soup.Message ("POST", url);
+        Json.Node root = new Json.Node (Json.NodeType.OBJECT);
+        Json.Generator generator = new Json.Generator ();
+        Soup.Session session = new Soup.Session ();
+        Json.Object arguments = new Json.Object ();
+        Json.Object body = new Json.Object ();
+
+        root.set_object (body);
+        generator.set_root (root);
+        
+        arguments.set_string_member("metainfo", Base64.encode(file));
         body.set_string_member ("method", "torrent-add");
         body.set_object_member ("arguments", arguments);
         message.set_request ("text/html", Soup.MemoryUse.COPY, generator.to_data(null).data);

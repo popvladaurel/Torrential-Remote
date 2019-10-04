@@ -72,6 +72,7 @@ public class Models.Torrent : Object {
     // Current status, see source
     public int status { get; set; }
 
+    // Error code
     public int error { get; set; }
     public string errorString { get; set; }
 

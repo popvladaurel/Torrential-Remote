@@ -12,14 +12,14 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
         subtitle = "Manage your remote torrents!";
         show_close_button = true;
         Gtk.Button open = new Gtk.Button.from_icon_name("document-open", Gtk.IconSize.LARGE_TOOLBAR );
-        open.clicked.connect (() => { this.open(); });
+        open.clicked.connect (() => { this.file (); });
         Gtk.Button magnet = new Gtk.Button.from_icon_name("open-magnet", Gtk.IconSize.LARGE_TOOLBAR );
-        magnet.clicked.connect (() => { this.magnet(); });
+        magnet.clicked.connect (() => { this.magnet (); });
         pack_start(open);
         pack_start(magnet);
     }
 
-    private void open () {
+    private void file () {
         File file = null;
         
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
@@ -38,9 +38,8 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
                 uint8[] contents;
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
-                //TODO Add torrent from file
-                stderr.printf((string) contents);
-                GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+                Models.Client client = new Models.Client(window.server);
+                client.addFromFile (contents);
             } catch (Error e) {
                 stdout.printf ("Error: %s\n", e.message);
             }
