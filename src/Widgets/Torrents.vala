@@ -83,7 +83,8 @@ public class Widgets.Torrents : Gtk.ListBox {
             Idle.add((owned) callback);
             return true;
         };
-        Thread<bool> thread = new Thread<bool>("thread-example", run);
+        
+        new Thread<bool>("thread-example", run);
     
         // Wait for background thread to schedule our callback
         yield;

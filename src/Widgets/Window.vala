@@ -28,7 +28,7 @@ public class Window : Gtk.ApplicationWindow {
 		Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 		Granite.Widgets.SourceList servers = new Granite.Widgets.SourceList ();
 		servers.vexpand = true;
-		servers.margin_left = 5;
+		servers.set_margin_start(5);
 
 		//TODO generate an item for each server
 		int i = 1;

@@ -52,9 +52,10 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
             null, 
             this.window,
             Gtk.DialogFlags.MODAL,
-            Gtk.Stock.CANCEL,
+
+            "Cancel",
             Gtk.ResponseType.CANCEL,
-            Gtk.Stock.OK,
+            "OK",
             Gtk.ResponseType.OK, 
             null
         );
