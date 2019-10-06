@@ -9,9 +9,10 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderfull [Torren
 - [x] Show the torrents in a list
 - [x] Dinamically update the displayed torrents
 - [ ] Add server dialog and welcome page
-- [ ] Build saved servers side panel
-- [ ] Add torrent from file
+- [x] Build saved servers side panel
+- [x] Add torrent from file
 - [x] Add torrent from magnet link
+- [ ] Pause and resume torrent download
 - [ ] Remove torrent
 - [ ] Torrents sorting and filtering
 - [ ] Implement error messages
