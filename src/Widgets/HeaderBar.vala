@@ -21,6 +21,12 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
 
     private void file () {
         File file = null;
+        Gtk.FileFilter allFiles = new Gtk.FileFilter ();
+        allFiles.set_filter_name ("All files");
+        allFiles.add_pattern ("*");
+        Gtk.FileFilter torrentFiles = new Gtk.FileFilter ();
+        torrentFiles.set_filter_name ("Torrent files");
+        torrentFiles.add_mime_type ("application/x-bittorrent");
         
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
             "Select a file to edit", this.window, Gtk.FileChooserAction.OPEN,
@@ -29,8 +35,11 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
             "_Open",
             Gtk.ResponseType.ACCEPT);
         chooser.set_select_multiple (false);
+        chooser.add_filter (torrentFiles);
+        chooser.add_filter (allFiles);
         chooser.run ();
         chooser.close ();
+
         if (chooser.get_file () != null) {
             file = chooser.get_file ();
 
