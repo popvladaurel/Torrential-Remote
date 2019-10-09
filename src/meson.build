@@ -10,6 +10,7 @@ executable(
     'Models/Server.vala',
     'Models/Client.vala',
     'Enums/Statuses.vala',
+    'Controllers/Server.vala',
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('unity'),

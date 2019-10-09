@@ -20,8 +20,7 @@ public class Application : Gtk.Application {
 			appinfo.set_as_last_used_for_type ("application/x-bittorrent");
 		} catch (Error e) {
 			warning ("Unable to set self as default for torrent files: %s", e.message);
-		}
-        
+		}      
 	}
 
 	protected override void activate () {
