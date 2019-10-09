@@ -1,10 +1,12 @@
 [Desktop Entry]
 Name=Torrential Remote
 GenericName=Torrential Remote
-Comment=Connect to a remote torrent
+Comment=Connect to a remote torrent server
 Categories=Utility;Network;
-Exec=com.github.popvladaurel.torrential-remote
+Exec=com.github.popvladaurel.torrential-remote %U
 Icon=application-default-icon
 Terminal=false
 Type=Application
-Keywords=Torrential;Remote;Torrent;
+Keywords=Torrential;Remote;Torrent;Bittorrent;Download;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+X-GNOME-UsesNotifications=true
