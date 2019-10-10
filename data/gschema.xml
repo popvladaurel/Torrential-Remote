@@ -21,5 +21,10 @@
             <summary>Main window vertical position</summary>
             <description>The saved vertical position of the main window</description>
         </key>
+        <key name="dark-theme" type="b">
+            <default>false</default>
+            <summary>Prefer dark theme</summary>
+            <description>Wether to switch the entire application to the default dark mode</description>
+        </key>
     </schema>
 </schemalist>

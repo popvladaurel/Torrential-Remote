@@ -15,6 +15,18 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
         open.clicked.connect (() => { this.file (); });
         Gtk.Button magnet = new Gtk.Button.from_icon_name("open-magnet", Gtk.IconSize.LARGE_TOOLBAR );
         magnet.clicked.connect (() => { this.magnet (); });
+
+        Granite.ModeSwitch toggle = new Granite.ModeSwitch.from_icon_name("display-brightness-symbolic", "weather-clear-night-symbolic");
+        toggle.bind_property ("active", window, "dark_theme");
+        toggle.active = window.dark_theme;
+        toggle.primary_icon_tooltip_text = "Light theme";
+		toggle.secondary_icon_tooltip_text = "Dark theme";
+        toggle.valign = Gtk.Align.CENTER;
+        toggle.notify.connect(() => {
+            Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = toggle.active;
+        });
+        pack_end(toggle);
+
         pack_start(open);
         pack_start(magnet);
     }

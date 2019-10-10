@@ -5,15 +5,17 @@ public class Window : Gtk.ApplicationWindow {
 	private Gtk.Box box;
 	private Gtk.ScrolledWindow scroll;
 	public Models.Server server;
+	public bool dark_theme { get; set; }
 
 	construct {
-		headerBar = new Widgets.HeaderBar (this);
 		scroll = new Gtk.ScrolledWindow(null, null);
 		box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		settings = new Settings ("com.github.popvladaurel.torrential-remote");
 
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
 		resize (settings.get_int ("window-width"), settings.get_int ("window-height"));
+		dark_theme = settings.get_boolean ("dark-theme");
+		headerBar = new Widgets.HeaderBar (this);
 
 		delete_event.connect (e => {
 	 		return before_destroy ();
@@ -76,6 +78,8 @@ public class Window : Gtk.ApplicationWindow {
 		set_titlebar(headerBar);
 		add(paned);
 		show_all();
+		Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = dark_theme;
+
 
 	}
 
@@ -84,12 +88,14 @@ public class Window : Gtk.ApplicationWindow {
 
 		get_size (out width, out height);
 		get_position (out x, out y);
+		
 		//TODO get pane position and save it
 
 		settings.set_int ("window-pos-x", x);
 		settings.set_int ("window-pos-y", y);
 		settings.set_int ("window-width", width);
 		settings.set_int ("window-height", height);
+		settings.set_boolean ("dark-theme", dark_theme);
 
 		return false;
 	}

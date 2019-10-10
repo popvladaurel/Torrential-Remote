@@ -18,8 +18,8 @@ class Controllers.Server : Object {
         file = folder.get_child ("servers.json");
         if (!file.query_exists ()) {
             stream = file.create (FileCreateFlags.NONE);
-            data = new DataOutputStream (stream);
-            data.put_string("SOME DATA HERE");
+            //  data = new DataOutputStream (stream);
+            //  data.put_string("SOME DATA HERE");
         }
     }
 
