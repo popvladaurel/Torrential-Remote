@@ -41,11 +41,14 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
         torrentFiles.add_mime_type ("application/x-bittorrent");
         
         Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog (
-            "Select a file to edit", this.window, Gtk.FileChooserAction.OPEN,
+            null,
+            this.window, 
+            Gtk.FileChooserAction.OPEN,
             "_Cancel",
             Gtk.ResponseType.CANCEL,
             "_Open",
-            Gtk.ResponseType.ACCEPT);
+            Gtk.ResponseType.ACCEPT
+        );
         chooser.set_select_multiple (false);
         chooser.add_filter (torrentFiles);
         chooser.add_filter (allFiles);
@@ -68,12 +71,11 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
     }
 
     private void magnet () {
-        
+        Gtk.DialogFlags flags = Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT;
         Gtk.Dialog dialog = new Gtk.Dialog.with_buttons (
             null, 
             this.window,
-            Gtk.DialogFlags.MODAL,
-
+            flags,
             "Cancel",
             Gtk.ResponseType.CANCEL,
             "OK",
