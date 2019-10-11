@@ -6,6 +6,7 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderful [Torrent
 ![Torrents Page](data/screenshots/Light.png "Light Theme")
 
 ## TODO
+
 - [x] Retrieve the torrents from a server
 - [x] Show the torrents in a list
 - [x] Dynamically update the displayed torrents
@@ -19,14 +20,16 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderful [Torrent
 - [ ] Implement error messages
 
 ## Dependencies
-* valac
-* libgtk-3-dev
-* libgranite-dev
-* libunity-dev
-* libsoup-2.4
-* json-glib-1.0
+
+- valac
+- libgtk-3-dev
+- libgranite-dev
+- libunity-dev
+- libsoup2.4-dev
+- libjson-glib-dev
 
 ## Building and Installation
+
     git clone https://github.com/popvladaurel/Torrential-Remote.git
     cd Torrential-Remote
     meson build --prefix=/usr
