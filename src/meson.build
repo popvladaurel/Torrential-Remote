@@ -6,6 +6,7 @@ executable(
     'Widgets/HeaderBar.vala',
     'Widgets/Torrents.vala',
     'Widgets/TorrentRow.vala',
+    'Widgets/AddServerDialog.vala',
     'Models/Torrent.vala',
     'Models/Server.vala',
     'Models/Client.vala',

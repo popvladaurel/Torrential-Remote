@@ -2,7 +2,6 @@
 
 Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderful [Torrential](https://github.com/davidmhewitt/torrential) application, Torrential Remote allows for the remote management of multiple torrent servers. It will incorporate the minimal functionality needed to control torrents from one (or more) remote torrent servers.
 
-![Torrents Page](data/screenshots/Welcome.png "Welcome")
 ![Torrents Page](data/screenshots/Light.png "Light Theme")
 
 ## TODO
@@ -10,7 +9,7 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderful [Torrent
 - [x] Retrieve the torrents from a server
 - [x] Show the torrents in a list
 - [x] Dynamically update the displayed torrents
-- [ ] Add server dialog and welcome page
+- [x] Add server dialog and welcome page
 - [x] Build saved servers side panel
 - [x] Add torrent from file
 - [x] Add torrent from magnet link
@@ -18,6 +17,7 @@ Inspired by [David Hewitt](https://github.com/davidmhewitt)'s wonderful [Torrent
 - [ ] Remove torrent
 - [ ] Torrents sorting and filtering
 - [ ] Implement error messages
+- [ ] Refactor and AppCenter publish
 
 ## Dependencies
 
