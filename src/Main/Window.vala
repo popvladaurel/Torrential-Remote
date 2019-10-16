@@ -22,44 +22,39 @@ public class Main.Window : Gtk.ApplicationWindow {
 		});
 	}
 
-	public Window (Gee.ArrayList<Server.Model> serversList) {
+	public Window (Gee.ArrayList<Server.Model> serversListArray) {
 		Gtk.Paned paned = new Gtk.Paned(Gtk.Orientation.HORIZONTAL);
 
 		Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-		Granite.Widgets.SourceList servers = new Granite.Widgets.SourceList ();
-		servers.vexpand = true;
-		servers.set_margin_start(5);
+		Granite.Widgets.SourceList serversList = new Granite.Widgets.SourceList ();
+		serversList.vexpand = true;
+		serversList.set_margin_start(5);
 
 		//TODO generate an item for each server
-		foreach (Server.Model server in serversList) {
-			Granite.Widgets.SourceList.Item serverEntry = new Granite.Widgets.SourceList.Item (server.name);
-			serverEntry.icon = new ThemedIcon("network-server");
-			servers.root.add(serverEntry);
+		foreach (Server.Model server in serversListArray) {
+			serversList.root.add(new Server.Item (server));
 		}
 		
-		box.pack_start(servers, true, true, 0);
+		box.pack_start(serversList, true, true, 0);
 
 		Gtk.ActionBar actions = new Gtk.ActionBar();
 		Gtk.Button plus = new Gtk.Button.from_icon_name ("list-add", Gtk.IconSize.SMALL_TOOLBAR);
 
 		plus.clicked.connect (() => {
 			Server.Controller serverController = new Server.Controller ();
-			Server.Dialog dialog = new Server.Dialog (serversList);
-			//  serversList = serverController.all ();
+			Server.Dialog dialog = new Server.Dialog (serversListArray);
+			//  serversListArray = serverController.all ();
 		});
 
 		Gtk.Button minus = new Gtk.Button.from_icon_name ("list-remove", Gtk.IconSize.SMALL_TOOLBAR);
 
 		minus.clicked.connect (() => {
-			//Remove the selected server
-			GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+			Server.Controller serverController = new Server.Controller ();
+			serverController.delete (((Server.Item) serversList.selected).server);
 		});
 
 		actions.pack_start(plus);
 		actions.pack_start(minus);
-
-		//  action.add(actions);
-
 		box.pack_end(actions, false, true, 0);
 
 
@@ -67,8 +62,9 @@ public class Main.Window : Gtk.ApplicationWindow {
 		paned.position = 150;
 		paned.wide_handle = true;
 		paned.pack1 (box, false, false);
-					
-		Main.Torrents torrents = new Main.Torrents(serversList.get (0));
+		
+		//TODO Autoconnect to the default server
+		Main.Torrents torrents = new Main.Torrents(serversListArray.get (0));
 		scroll.add(torrents);
 		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);
@@ -94,5 +90,5 @@ public class Main.Window : Gtk.ApplicationWindow {
 		settings.set_boolean ("dark-theme", dark_theme);
 
 		return false;
-	}
+	}	
 }

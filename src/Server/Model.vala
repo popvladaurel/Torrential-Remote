@@ -32,6 +32,11 @@ public class Server.Model : Object {
 
    }
 
+   public bool equals (Model other) {
+      if (name == other.name) return true;
+      return false;
+  }
+
    private void auth (Soup.Message msg, Soup.Auth auth, bool retry) {
       if (user != null && pass != null)
          auth.authenticate(user, pass);

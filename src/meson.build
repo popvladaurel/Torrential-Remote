@@ -13,7 +13,8 @@ executable(
 
     'Client/Model.vala',
 
-    'Server/Model.vala',
+    'Server/Item.vala',
+    'Server/Model.vala',  
     'Server/Dialog.vala',
     'Server/Controller.vala',
     dependencies: [

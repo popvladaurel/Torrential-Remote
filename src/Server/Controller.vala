@@ -28,9 +28,9 @@ class Server.Controller : Object {
 
     }
 
-    public bool save (Server.Model newServer) {
+    public bool save (Server.Model server) {
         Gee.ArrayList<Server.Model> serversList = readServers ();
-        serversList.add (newServer);
+        serversList.add (server);
         return writeServers (serversList);
     }
 
@@ -42,8 +42,18 @@ class Server.Controller : Object {
 
     }
 
+    public bool delete (Server.Model server) {
+        Gee.ArrayList<Server.Model> serversList = readServers ();
+        int size = serversList.size;
+        bool contains = serversList.contains (server);
+        serversList.remove(server);
+        size = serversList.size;
+
+        return writeServers (serversList);
+    }
+
     private Gee.ArrayList<Server.Model> readServers () {
-        Gee.ArrayList<Server.Model> serversList = new Gee.ArrayList<Server.Model> ();
+        Gee.ArrayList<Server.Model> serversList = new Gee.ArrayList<Server.Model> ((Gee.EqualDataFunc) Server.Model.equals);
 
         try {
             Json.Parser jsonParser = new Json.Parser ();
