@@ -1,6 +1,6 @@
-public class Widgets.AddServerDialog : Granite.MessageDialog {
+public class Server.View : Granite.MessageDialog {
 
-    public AddServerDialog (Gee.ArrayList<Models.Server> serversList) {
+    public View (Gee.ArrayList<Server.Model> serversList) {
         Object (
             primary_text : "Welcome to Torrential Remote!",
             secondary_text : "Start by connecting to a server.",
@@ -78,8 +78,8 @@ public class Widgets.AddServerDialog : Granite.MessageDialog {
             string pass = passwordEntry.text;
 
             // TODO SAVE SERVER HERE
-            Models.Server newServer = new Models.Server.for_saving (name, host, port, path, user, pass, true);
-            Controllers.Server serverController = new Controllers.Server ();
+            Server.Model newServer = new Server.Model.for_saving (name, host, port, path, user, pass, true);
+            Server.Controller serverController = new Server.Controller ();
             bool serverSaved = serverController.save (newServer);
         }
 

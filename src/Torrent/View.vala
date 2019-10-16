@@ -1,4 +1,4 @@
-public class Widgets.TorrentRow : Gtk.ListBoxRow {
+public class Torrent.View : Gtk.ListBoxRow {
     public int64 id;
     public Gtk.Grid grid;
     public Gtk.Image icon;
@@ -9,7 +9,7 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
     public Gtk.Label state;
 
 
-    public Models.Torrent torrent;
+    public Torrent.Model torrent;
 
     private Gtk.CssProvider green_progress_provider;
     private Gtk.CssProvider red_progress_provider;
@@ -30,7 +30,7 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
         }
     }
 
-    public TorrentRow (Models.Torrent torrent) {
+    public View (Torrent.Model torrent) {
         id = torrent.id;
 
         grid = new Gtk.Grid ();
@@ -55,11 +55,11 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
 
         
 
-        if (torrent.status == Enums.Statuses.CHECK) {
+        if (torrent.status == Torrent.Statuses.CHECK) {
             progress.fraction = torrent.recheckProgress;
         }
 
-        if (torrent.status == Enums.Statuses.SEED)
+        if (torrent.status == Torrent.Statuses.SEED)
             progress.get_style_context ().add_provider (green_progress_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 
         if (torrent.error > 0)
@@ -69,7 +69,7 @@ public class Widgets.TorrentRow : Gtk.ListBoxRow {
         pause.tooltip_text = "Pause torrent";
         pause.get_style_context ().add_class ("flat");
         
-        if (torrent.status != Enums.Statuses.STOPPED) {
+        if (torrent.status != Torrent.Statuses.STOPPED) {
             pause = new Gtk.Button.from_icon_name (PAUSE_ICON_NAME);
             pause.tooltip_text = "Pause torrent";
         } else {

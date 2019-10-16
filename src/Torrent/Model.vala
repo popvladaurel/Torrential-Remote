@@ -1,4 +1,4 @@
-public class Models.Torrent : Object {
+public class Torrent.Model : Object {
 
     // The Json.Object received from the server.
     public Json.Object torrent { get; set; }
@@ -79,7 +79,7 @@ public class Models.Torrent : Object {
     public int filesCount { get; set; }
     public string firstFileName { get; set; }
     
-    public class Torrent(Json.Node node) {
+    public class Model (Json.Node node) {
       
         Json.Reader reader = new Json.Reader(node);
         foreach (string member in reader.list_members ()) {

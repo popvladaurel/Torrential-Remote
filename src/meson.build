@@ -2,16 +2,20 @@ executable(
     meson.project_name(),
     'Main.vala',
     'Application.vala',
-    'Widgets/Window.vala',
-    'Widgets/HeaderBar.vala',
-    'Widgets/Torrents.vala',
-    'Widgets/TorrentRow.vala',
-    'Widgets/AddServerDialog.vala',
-    'Models/Torrent.vala',
-    'Models/Server.vala',
-    'Models/Client.vala',
-    'Enums/Statuses.vala',
-    'Controllers/Server.vala',
+
+    'Main/Window.vala',
+    'Main/Torrents.vala',
+    'Main/HeaderBar.vala',
+    
+    'Torrent/View.vala',
+    'Torrent/Model.vala',
+    'Torrent/Statuses.vala',
+
+    'Client/Model.vala',
+
+    'Server/View.vala',
+    'Server/Model.vala',
+    'Server/Controller.vala',
     dependencies: [
         dependency('gtk+-3.0'),
         dependency('unity'),
@@ -21,3 +25,4 @@ executable(
     ],
     install: true
 )
+

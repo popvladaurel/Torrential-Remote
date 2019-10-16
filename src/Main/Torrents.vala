@@ -1,30 +1,29 @@
-public class Widgets.Torrents : Gtk.ListBox {
-    public Models.Server server;
-    public Models.Client client;
-    public List<TorrentRow> rows;
-    public Window window;
+public class Main.Torrents : Gtk.ListBox {
+    public Server.Model server;
+    public Client.Model client;
+    public List<Torrent.View> rows;
+    public Main.Window window;
 
     
 
-    public Torrents (Window window) {
+    public Torrents (Server.Model server) {
         this.window = window;
 
         // move this to an async method to improve start-up time
-        rows = new List<TorrentRow> ();
-        Models.Client client = new Models.Client (window.server);
+        rows = new List<Torrent.View> ();
+        client = new Client.Model (server);
 
         Json.Array torrents = client.all();
 
         foreach (Json.Node node in torrents.get_elements()) {
-                Models.Torrent torrent = new Models.Torrent(node);
-                TorrentRow row = new TorrentRow(torrent);
+            Torrent.Model torrent = new Torrent.Model(node);
+            Torrent.View row = new Torrent.View(torrent);
 
-                row.pause.clicked.connect (() => {
-                    GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
-                });
-                rows.append(row);
-                prepend(row);
-            
+            row.pause.clicked.connect (() => {
+                GLib.Application.get_default().send_notification(null, new Notification ("TODO: NOT YET IMPLEMENTED"));
+            });
+            rows.append(row);
+            prepend(row);
         }
                 
         var loop = new MainLoop();
@@ -50,10 +49,9 @@ public class Widgets.Torrents : Gtk.ListBox {
         loop.run();
     }
 
-    async double do_calc_in_bg(List<TorrentRow> rows) throws ThreadError {
+    async double do_calc_in_bg(List<Torrent.View> rows) throws ThreadError {
         SourceFunc callback = do_calc_in_bg.callback;
         double[] output = new double[1];
-        Models.Client client = new Models.Client (window.server);
 
         Json.Array torrents2 = client.all();
 
@@ -63,14 +61,14 @@ public class Widgets.Torrents : Gtk.ListBox {
         ThreadFunc<bool> run = () => {
 
             foreach (Json.Node node in torrents2.get_elements()) {
-                Models.Torrent torrent2 = new Models.Torrent(node);
-                foreach (TorrentRow row in rows) {
+                Torrent.Model torrent2 = new Torrent.Model(node);
+                foreach (Torrent.View row in rows) {
                     if (row.id == torrent2.id) {
                         row.stats.set_text(torrent2.stats());
                         row.state.set_text(torrent2.state());
                         row.progress.fraction = torrent2.percentDone;
                         //TODO Also change the pause button's icon
-                        if (torrent2.status == Enums.Statuses.CHECK) {
+                        if (torrent2.status == Torrent.Statuses.CHECK) {
                             row.progress.fraction = torrent2.recheckProgress;
                         }
                     }

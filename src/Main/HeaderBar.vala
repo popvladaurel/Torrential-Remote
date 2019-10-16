@@ -1,7 +1,7 @@
-public class Widgets.HeaderBar : Gtk.HeaderBar {
-    public Window window { get; construct;}
+public class Main.HeaderBar : Gtk.HeaderBar {
+    public Main.Window window { get; construct;}
 
-    public HeaderBar (Window window) {
+    public HeaderBar (Main.Window window) {
         Object (
             window: window
         );
@@ -62,7 +62,7 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
                 uint8[] contents;
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
-                Models.Client client = new Models.Client(window.server);
+                Client.Model client = new Client.Model(window.server);
                 client.addFromFile (contents);
             } catch (Error e) {
                 stdout.printf ("Error: %s\n", e.message);
@@ -113,7 +113,7 @@ public class Widgets.HeaderBar : Gtk.HeaderBar {
         int response = dialog.run ();
         if (response == Gtk.ResponseType.OK) {
             //TODO torrent from link
-            Models.Client client = new Models.Client(window.server);
+            Client.Model client = new Client.Model(window.server);
             client.addFromMagnet (entry.text);
         }
 

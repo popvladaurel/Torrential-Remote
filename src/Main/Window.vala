@@ -1,10 +1,10 @@
-public class Window : Gtk.ApplicationWindow {
+public class Main.Window : Gtk.ApplicationWindow {
 
 	public Settings settings;
-	public Widgets.HeaderBar headerBar;
+	public Main.HeaderBar headerBar;
 	private Gtk.Box box;
 	private Gtk.ScrolledWindow scroll;
-	public Models.Server server;
+	public Server.Model server;
 	public bool dark_theme { get; set; }
 
 	construct {
@@ -15,14 +15,14 @@ public class Window : Gtk.ApplicationWindow {
 		move (settings.get_int ("window-pos-x"), settings.get_int ("window-pos-y"));
 		resize (settings.get_int ("window-width"), settings.get_int ("window-height"));
 		dark_theme = settings.get_boolean ("dark-theme");
-		headerBar = new Widgets.HeaderBar (this);
+		headerBar = new Main.HeaderBar (this);
 
 		delete_event.connect (e => {
 	 		return before_destroy ();
 		});
 	}
 
-	public Window (Gee.ArrayList<Models.Server> serversList) {
+	public Window (Gee.ArrayList<Server.Model> serversList) {
 		Gtk.Paned paned = new Gtk.Paned(Gtk.Orientation.HORIZONTAL);
 
 		Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -31,7 +31,7 @@ public class Window : Gtk.ApplicationWindow {
 		servers.set_margin_start(5);
 
 		//TODO generate an item for each server
-		foreach (Models.Server server in serversList) {
+		foreach (Server.Model server in serversList) {
 			Granite.Widgets.SourceList.Item serverEntry = new Granite.Widgets.SourceList.Item (server.name);
 			serverEntry.icon = new ThemedIcon("network-server");
 			servers.root.add(serverEntry);
@@ -40,12 +40,11 @@ public class Window : Gtk.ApplicationWindow {
 		box.pack_start(servers, true, true, 0);
 
 		Gtk.ActionBar actions = new Gtk.ActionBar();
-		//  Gtk.Box actions = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 		Gtk.Button plus = new Gtk.Button.from_icon_name ("list-add", Gtk.IconSize.SMALL_TOOLBAR);
 
 		plus.clicked.connect (() => {
-			Controllers.Server serverController = new Controllers.Server ();
-			Widgets.AddServerDialog dialog = new Widgets.AddServerDialog (serversList);
+			Server.Controller serverController = new Server.Controller ();
+			Server.View dialog = new Server.View (serversList);
 			//  serversList = serverController.all ();
 		});
 
@@ -69,7 +68,7 @@ public class Window : Gtk.ApplicationWindow {
 		paned.wide_handle = true;
 		paned.pack1 (box, false, false);
 					
-		Widgets.Torrents torrents = new Widgets.Torrents(this);
+		Main.Torrents torrents = new Main.Torrents(serversList.get (0));
 		scroll.add(torrents);
 		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);

@@ -1,7 +1,7 @@
 public class Application : Gtk.Application {
-	private Window? window = null;
-	private Controllers.Server serverController = new Controllers.Server ();
-	public Gee.ArrayList<Models.Server> serversList;
+	private Main.Window? window = null;
+	private Server.Controller serverController = new Server.Controller ();
+	public Gee.ArrayList<Server.Model> serversList;
 
 
 	public Application () {
@@ -29,24 +29,24 @@ public class Application : Gtk.Application {
 	protected override void activate () {
 		serversList = serverController.all ();
 		if (serversList.size == 0) {
-			Widgets.AddServerDialog dialog = new Widgets.AddServerDialog (serversList);
+			Server.View dialog = new Server.View (serversList);
 			dialog.set_parent (window);
 			serversList = serverController.all ();
 		}
 		
-		Window window = new Window (serversList);
+		Main.Window window = new Main.Window (serversList);
 		add_window (window);
 	}
 
 	public override void open (File[] files, string hint) {
-		//  Models.Server server = new Models.Server ("192.168.100.101", 9091, null, null);
+		//  Server.Model server = new Server.Model ("192.168.100.101", 9091, null, null);
 
         foreach (File file in files) {
             try {
                 uint8[] contents;
                 string etag_out;
 				file.load_contents (null, out contents, out etag_out);
-				//  Models.Client client = new Models.Client(server);
+				//  Client.Model client = new Client.Model(server);
 				//  client.addFromFile (contents);
             } catch (Error e) {
 				GLib.Application.get_default().send_notification(null, new Notification ("COULD NOT ADD TORRENT"));

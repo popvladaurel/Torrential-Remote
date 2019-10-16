@@ -1,4 +1,4 @@
-public class Models.Client : Object {
+public class Client.Model : Object {
 
     public string sessionId { get; set; }
     public string url { get; set; }
@@ -11,7 +11,7 @@ public class Models.Client : Object {
 
     //  private static int[] idx = {23, 42, 74, 75, 76, 77};
 
-    public Client (Models.Server server) {
+    public Model (Server.Model server) {
         Object (
             url: server.url,
             sessionId: server.sessionId

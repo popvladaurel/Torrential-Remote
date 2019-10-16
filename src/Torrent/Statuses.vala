@@ -1,4 +1,4 @@
-public enum Enums.Statuses {
+public enum Torrent.Statuses {
     STOPPED        = 0, /* Torrent is stopped */
     CHECK_WAIT     = 1, /* Queued to check files */
     CHECK          = 2, /* Checking files */
