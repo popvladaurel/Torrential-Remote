@@ -1,6 +1,6 @@
-public class Server.View : Granite.MessageDialog {
+public class Server.Dialog : Granite.MessageDialog {
 
-    public View (Gee.ArrayList<Server.Model> serversList) {
+    public Dialog (Gee.ArrayList<Server.Model> serversList) {
         Object (
             primary_text : "Welcome to Torrential Remote!",
             secondary_text : "Start by connecting to a server.",

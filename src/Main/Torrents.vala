@@ -1,13 +1,9 @@
 public class Main.Torrents : Gtk.ListBox {
     public Server.Model server;
     public Client.Model client;
-    public List<Torrent.View> rows;
-    public Main.Window window;
-
-    
+    public List<Torrent.View> rows;  
 
     public Torrents (Server.Model server) {
-        this.window = window;
 
         // move this to an async method to improve start-up time
         rows = new List<Torrent.View> ();

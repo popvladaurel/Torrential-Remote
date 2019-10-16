@@ -29,7 +29,7 @@ public class Application : Gtk.Application {
 	protected override void activate () {
 		serversList = serverController.all ();
 		if (serversList.size == 0) {
-			Server.View dialog = new Server.View (serversList);
+			Server.Dialog dialog = new Server.Dialog (serversList);
 			dialog.set_parent (window);
 			serversList = serverController.all ();
 		}

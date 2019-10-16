@@ -13,8 +13,8 @@ executable(
 
     'Client/Model.vala',
 
-    'Server/View.vala',
     'Server/Model.vala',
+    'Server/Dialog.vala',
     'Server/Controller.vala',
     dependencies: [
         dependency('gtk+-3.0'),

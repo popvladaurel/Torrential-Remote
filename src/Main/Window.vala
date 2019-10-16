@@ -44,7 +44,7 @@ public class Main.Window : Gtk.ApplicationWindow {
 
 		plus.clicked.connect (() => {
 			Server.Controller serverController = new Server.Controller ();
-			Server.View dialog = new Server.View (serversList);
+			Server.Dialog dialog = new Server.Dialog (serversList);
 			//  serversList = serverController.all ();
 		});
 
