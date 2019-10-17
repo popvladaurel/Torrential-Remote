@@ -1,7 +1,7 @@
 public class Server.Model : Object {
 
    public string name { get; set; default = "Default"; }
-   public string host { get; set; default = "xxxxx"; }
+   public string host { get; set; default = "localhost"; }
    public string port { get; set; default = "9091"; }
    public string path { get; set; default = "/transmission/rpc"; }
    public string user { get; set; default = "transmission"; }

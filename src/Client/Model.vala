@@ -19,6 +19,7 @@ public class Client.Model : Object {
     }
 
     public Json.Array all () {
+        Json.Array torrents = new Json.Array();
         Soup.Session session = new Soup.Session ();
         Soup.Message message = new Soup.Message ("POST", url);
         Json.Node root = new Json.Node (Json.NodeType.OBJECT);
@@ -50,7 +51,6 @@ public class Client.Model : Object {
             parser.load_from_data ((string) message.response_body.flatten ().data, -1);
         } catch (Error e) {
             print ("Unable to parse data: %s\n", e.message);
-            return new Json.Array();
         }
         
         root = parser.get_root ();
@@ -58,12 +58,12 @@ public class Client.Model : Object {
         if (body.has_member ("arguments")) {
             arguments = body.get_object_member ("arguments");
             if (arguments.has_member ("torrents")) {
-                return arguments.get_array_member ("torrents");
+                torrents = arguments.get_array_member ("torrents");
             }
             
         }
 
-        return new Json.Array();
+        return torrents;
     }
 
     public void addFromMagnet (string link) {

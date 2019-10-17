@@ -62,7 +62,7 @@ public class Main.HeaderBar : Gtk.HeaderBar {
                 uint8[] contents;
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
-                Client.Model client = new Client.Model(window.server);
+                Client.Model client = new Client.Model(window.selectedServer);
                 client.addFromFile (contents);
             } catch (Error e) {
                 stdout.printf ("Error: %s\n", e.message);
@@ -112,7 +112,6 @@ public class Main.HeaderBar : Gtk.HeaderBar {
 
         int response = dialog.run ();
         if (response == Gtk.ResponseType.OK) {
-            //TODO torrent from link
             Client.Model client = new Client.Model(window.server);
             client.addFromMagnet (entry.text);
         }

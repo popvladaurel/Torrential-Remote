@@ -1,4 +1,4 @@
-public class Torrent.View : Gtk.ListBoxRow {
+public class Torrent.Row : Gtk.ListBoxRow {
     public int64 id;
     public Gtk.Grid grid;
     public Gtk.Image icon;
@@ -30,7 +30,7 @@ public class Torrent.View : Gtk.ListBoxRow {
         }
     }
 
-    public View (Torrent.Model torrent) {
+    public Row (Torrent.Model torrent) {
         id = torrent.id;
 
         grid = new Gtk.Grid ();
@@ -93,7 +93,7 @@ public class Torrent.View : Gtk.ListBoxRow {
             targetval.set_string(torrent.title());
             return true;
         });
-             
+
         show_all();
     }
 }

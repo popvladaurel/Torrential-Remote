@@ -4,14 +4,14 @@ executable(
     'Application.vala',
 
     'Main/Window.vala',
-    'Main/Torrents.vala',
     'Main/HeaderBar.vala',
     
-    'Torrent/View.vala',
+    'Torrent/Row.vala',
     'Torrent/Model.vala',
     'Torrent/Statuses.vala',
 
     'Client/Model.vala',
+    'Client/View.vala',
 
     'Server/Item.vala',
     'Server/Model.vala',  

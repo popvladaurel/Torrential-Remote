@@ -6,6 +6,7 @@ public class Main.Window : Gtk.ApplicationWindow {
 	private Gtk.ScrolledWindow scroll;
 	public Server.Model server;
 	public bool dark_theme { get; set; }
+	public Server.Model selectedServer;
 
 	construct {
 		scroll = new Gtk.ScrolledWindow(null, null);
@@ -30,9 +31,8 @@ public class Main.Window : Gtk.ApplicationWindow {
 		serversList.vexpand = true;
 		serversList.set_margin_start(5);
 
-		//TODO generate an item for each server
 		foreach (Server.Model server in serversListArray) {
-			serversList.root.add(new Server.Item (server));
+			serversList.root.add (new Server.Item (server));
 		}
 		
 		box.pack_start(serversList, true, true, 0);
@@ -64,7 +64,8 @@ public class Main.Window : Gtk.ApplicationWindow {
 		paned.pack1 (box, false, false);
 		
 		//TODO Autoconnect to the default server
-		Main.Torrents torrents = new Main.Torrents(serversListArray.get (0));
+		selectedServer = serversListArray.get (0);
+		Client.View torrents = new Client.View(selectedServer);
 		scroll.add(torrents);
 		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);
