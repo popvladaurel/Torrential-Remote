@@ -1,8 +1,8 @@
 public class Torrent.Row : Gtk.ListBoxRow {
-    public int64 id;
+    public int64 id { get; set; }
     public Gtk.Grid grid;
     public Gtk.Image icon;
-    public Gtk.Label title;
+    public Gtk.Label title { get; set; }
     public Gtk.Label stats;
     public Gtk.ProgressBar progress;
     public Gtk.Button pause;

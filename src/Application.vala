@@ -1,6 +1,6 @@
 public class Application : Gtk.Application {
 	private Main.Window? window = null;
-	private Server.Controller serverController = new Server.Controller ();
+	private Server.Controller serverController;
 	public Gee.ArrayList<Server.Model> serversList;
 
 
@@ -12,6 +12,9 @@ public class Application : Gtk.Application {
 	}
 
 	construct {
+		serverController = new Server.Controller ();
+		serversList = serverController.all ();
+
 		DesktopAppInfo appinfo = new DesktopAppInfo (get_application_id () + ".desktop");
 		try {
 			appinfo.set_as_last_used_for_type ("x-scheme-handler/magnet");
@@ -27,7 +30,6 @@ public class Application : Gtk.Application {
 	}
 
 	protected override void activate () {
-		serversList = serverController.all ();
 		if (serversList.size == 0) {
 			Server.Dialog dialog = new Server.Dialog (serversList);
 			dialog.set_parent (window);
@@ -39,15 +41,21 @@ public class Application : Gtk.Application {
 	}
 
 	public override void open (File[] files, string hint) {
-		//  Server.Model server = new Server.Model ("192.168.100.101", 9091, null, null);
+		serversList = serverController.all ();
+
+		if (serversList.size == 0) {
+			Server.Dialog dialog = new Server.Dialog (serversList);
+			dialog.set_parent (window);
+			serversList = serverController.all ();
+		}
 
         foreach (File file in files) {
             try {
                 uint8[] contents;
                 string etag_out;
 				file.load_contents (null, out contents, out etag_out);
-				//  Client.Model client = new Client.Model(server);
-				//  client.addFromFile (contents);
+				Client.Model client = new Client.Model(serversList[0]);
+				client.addFromFile (contents);
             } catch (Error e) {
 				GLib.Application.get_default().send_notification(null, new Notification ("COULD NOT ADD TORRENT"));
             }

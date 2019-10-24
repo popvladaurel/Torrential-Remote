@@ -3,10 +3,11 @@ public class Main.Window : Gtk.ApplicationWindow {
 	public Settings settings;
 	public Main.HeaderBar headerBar;
 	private Gtk.Box box;
-	private Gtk.ScrolledWindow scroll;
+	public Gtk.ScrolledWindow scroll;
 	public Server.Model server;
 	public bool dark_theme { get; set; }
 	public Server.Model selectedServer;
+	public Client.View torrents;
 
 	construct {
 		scroll = new Gtk.ScrolledWindow(null, null);
@@ -65,7 +66,7 @@ public class Main.Window : Gtk.ApplicationWindow {
 		
 		//TODO Autoconnect to the default server
 		selectedServer = serversListArray.get (0);
-		Client.View torrents = new Client.View(selectedServer);
+		torrents = new Client.View (selectedServer);
 		scroll.add(torrents);
 		paned.pack2(scroll, false, false);
 		set_titlebar(headerBar);

@@ -64,6 +64,7 @@ class Server.Controller : Object {
                 Server.Model server = new Server.Model ();
                 Json.Reader jsonReader = new Json.Reader (serverJson);
                 foreach (string serverProperty in jsonReader.list_members ()) {
+                    //TODO this switch can be replaced with Json.gobject_deserialize 
                     switch (serverProperty) {
                         case "name":
                         case "host":

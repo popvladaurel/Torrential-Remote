@@ -1,5 +1,6 @@
 public class Main.HeaderBar : Gtk.HeaderBar {
     public Main.Window window { get; construct;}
+    public Gtk.SearchEntry searchEntry;
 
     public HeaderBar (Main.Window window) {
         Object (
@@ -25,8 +26,20 @@ public class Main.HeaderBar : Gtk.HeaderBar {
         toggle.notify.connect(() => {
             Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = toggle.active;
         });
-        pack_end(toggle);
 
+        searchEntry = new Gtk.SearchEntry ();
+        searchEntry.placeholder_text = "Search Torrents";
+        searchEntry.search_changed.connect (() => {
+            if (searchEntry.text != "") {
+                (window.torrents as Gtk.ListBox).set_filter_func ((item) => {
+                    return (item as Torrent.Row).title.label.casefold ().contains (searchEntry.text.casefold ());
+                });
+                
+            }
+        });
+
+        pack_end(toggle);
+        pack_end (searchEntry);
         pack_start(open);
         pack_start(magnet);
     }

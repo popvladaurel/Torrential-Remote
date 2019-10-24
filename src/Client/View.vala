@@ -95,7 +95,7 @@ public class Client.View : Gtk.ListBox {
         Gdk.Event event = Gtk.get_current_event ();
         var menu = new Gtk.Menu ();
 
-        var items = get_selected_rows ();
+        List<weak Gtk.ListBoxRow> items = get_selected_rows ();
         var all_paused = true;
 
         foreach (var selected_row in items) {
@@ -108,7 +108,9 @@ public class Client.View : Gtk.ListBox {
         var remove_item = new Gtk.MenuItem.with_label ("Remove");
         remove_item.activate.connect (() => {
             foreach (var selected_row in items) {
-                //  (selected_row as TorrentListRow).remove_torrent ();
+                //  Torrent.Row selected2_row = (Torrent.Row) selected_row;
+                //  warning ( GLib.Application.get_default ().get_application_id ());
+                //  torrentController.remove (select_row.torrent);
             }
         });
 

@@ -76,8 +76,6 @@ public class Server.Dialog : Granite.MessageDialog {
             string path = pathEntry.text;
             string user = usernameEntry.text;
             string pass = passwordEntry.text;
-
-            // TODO SAVE SERVER HERE
             Server.Model newServer = new Server.Model.for_saving (name, host, port, path, user, pass, true);
             Server.Controller serverController = new Server.Controller ();
             bool serverSaved = serverController.save (newServer);
