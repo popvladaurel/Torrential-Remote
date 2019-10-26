@@ -7,6 +7,7 @@ public class Torrent.Row : Gtk.ListBoxRow {
     public Gtk.ProgressBar progress;
     public Gtk.Button pause;
     public Gtk.Label state;
+    public int status;
 
 
     public Torrent.Model torrent;
@@ -32,6 +33,7 @@ public class Torrent.Row : Gtk.ListBoxRow {
 
     public Row (Torrent.Model torrent) {
         id = torrent.id;
+        status = torrent.status;
 
         grid = new Gtk.Grid ();
         grid.margin = 12;

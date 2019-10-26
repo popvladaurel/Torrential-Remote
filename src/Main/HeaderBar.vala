@@ -9,8 +9,6 @@ public class Main.HeaderBar : Gtk.HeaderBar {
     }
 
     construct {
-        title = "Torrential Remote";
-        subtitle = "Manage your remote torrents!";
         show_close_button = true;
         Gtk.Button open = new Gtk.Button.from_icon_name("document-open", Gtk.IconSize.LARGE_TOOLBAR );
         open.clicked.connect (() => { this.file (); });
@@ -39,6 +37,42 @@ public class Main.HeaderBar : Gtk.HeaderBar {
             }
         });
 
+        Granite.Widgets.ModeButton sort = new Granite.Widgets.ModeButton ();
+        sort.margin = 1;
+        sort.margin_right = 20;
+        sort.append_text ("All");
+        sort.append_text ("Downloading");
+        sort.append_text ("Seeding");
+        sort.append_text ("Paused");
+        sort.selected = 0;
+
+        sort.notify["selected"].connect (() => {
+            switch (sort.selected) {
+                case 0: //ALL
+                    (window.torrents as Gtk.ListBox).set_filter_func (null);
+                    break;
+                case 1: //DOWNLOADING
+                    (window.torrents as Gtk.ListBox).set_filter_func ((item) => {
+                        return (item as Torrent.Row).status == Torrent.Statuses.DOWNLOAD;
+                    });
+                    break;
+                case 2: //SEEDING
+                    (window.torrents as Gtk.ListBox).set_filter_func ((item) => {
+                        return (item as Torrent.Row).status == Torrent.Statuses.SEED;
+                    });
+                    break;
+                case 3: //PAUSED
+                    (window.torrents as Gtk.ListBox).set_filter_func ((item) => {
+                        return (item as Torrent.Row).status == Torrent.Statuses.STOPPED;
+                    });
+                    break;
+                default:
+                    break;
+                }
+            warning ("clicked: %i", sort.selected);
+        });
+
+        set_custom_title (sort);
         pack_end(toggle);
         pack_end (searchEntry);
         pack_start(open);
