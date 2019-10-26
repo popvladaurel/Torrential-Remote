@@ -33,8 +33,9 @@ public class Main.HeaderBar : Gtk.HeaderBar {
             if (searchEntry.text != "") {
                 (window.torrents as Gtk.ListBox).set_filter_func ((item) => {
                     return (item as Torrent.Row).title.label.casefold ().contains (searchEntry.text.casefold ());
-                });
-                
+                });              
+            } else {
+                (window.torrents as Gtk.ListBox).invalidate_filter ();
             }
         });
 
